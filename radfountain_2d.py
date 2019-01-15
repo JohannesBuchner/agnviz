@@ -59,7 +59,7 @@ r_d = compute_dust_sublimation_radius(L_AGN)
 
 theta_crit = compute_critical_angle(MBH, L_AGN, r_0, r_d, 
 	dust_to_gas_ratio = dust_to_gas_ratio,
-	kappa = kappa)
+	kappa = kappa) / pi * 180
 
 plt.imshow(theta_crit,
 	origin="lower", aspect="auto",
@@ -101,7 +101,7 @@ r_d = compute_dust_sublimation_radius(L_AGN)
 
 theta_crit = compute_critical_angle(MBH, L_AGN, r_0, r_d, 
 	dust_to_gas_ratio = dust_to_gas_ratio,
-	kappa = kappa)
+	kappa = kappa) / pi * 180
 
 import matplotlib.pyplot as plt
 plt.imshow(theta_crit,
