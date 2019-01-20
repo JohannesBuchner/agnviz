@@ -296,7 +296,7 @@ def plot_log_agn_postcard(MBH, eddrate,
 if __name__ == "__main__":
 	fL = open("luminosities.js", 'w')
 	lumlist = ['L_X', 'L_R', 'L_B', 'lambda_edd', 'M_in', 'M_out']
-	fL.write("var luminosities_keys = [%s];\n" % ', '.join(lumlist));
+	fL.write("var luminosities_keys = [%s];\n" % ', '.join(['"%s"' % k for k in lumlist]));
 	fL.write("var luminosities = [\n");
 	
 	for logMBH in [6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5]:
@@ -331,7 +331,7 @@ if __name__ == "__main__":
 				L_X = log_lum(bolcorr_hardX(L_AGN)),
 				L_B = log_lum(bolcorr_B(L_AGN)),
 				L_R = log_lum(compute_radiocore_luminosity(MBH, L_AGN)),
-				lambda_edd = eddrate,
+				lambda_edd = rround(eddrate.to(1).value),
 				M_in = log10((L_AGN / c.c**2 / 0.1).to(u.Msun / u.yr).value),
 				M_out = log10(compute_outflow_rate(L_AGN, Mstar = 1e11 * u.Msun, SFR = 0*u.Msun/u.yr).value),
 			)

@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Model-driven AGN visualisation</title>
 <script src="jquery-1.9.1.min.js" ></script>
 <script src="luminosities.js" ></script>
@@ -9,24 +10,33 @@
 'use strict';
 
 function update() {
-	var M = parseFloat($("#M").val());
-	var L = parseFloat($("#L").val());
+	var Mi = parseFloat($("#M").val());
+	var Li = parseFloat($("#L").val());
 
-	$("#Mval").html(M.toFixed(1));
-	$("#Lval").html(L.toFixed(1));
+	$("#Mval").html(Mi.toFixed(1));
+	$("#Lval").html(Li.toFixed(1));
 
 	var suffix = "_log_simple.png";
 	if ($("#morefeatures").is(':checked')) {
 		suffix = "_log.png"
 	}
-	var imgname = get_image_url(M[row], L[col], suffix);
+	var imgname = get_image_url(Mi, Li, suffix);
 	
 	console.log("updating to " + imgname);
 	
 	$("#viz").attr("src", imgname);
 	
-	$("#info").html(luminosities[row][col]);
-	
+	var row = Math.round((Li - 42)/0.2)
+	var col = Math.round((Mi - 6)/0.5)
+	console.log(L, row, Li)
+	console.log(M, col, Mi)
+	console.log("row/col: " + row + "/" + col);
+	var Ls = luminosities[row][col];
+	var html = ""
+	html += "<label title='Intrinsic X-ray luminosity (erg/s, log)'>L<sub>X</sub> = " + Ls[0].toFixed(1) + "<br/>";
+	html += "<label title='Radio core luminosity (erg/s, log)'>L<sub>R</sub> = " + Ls[1].toFixed(1) + "<br/>";
+	html += "<label title='Eddington ratio (log)'>&lambda; = " + Math.log10(Ls[3]).toFixed(1) + "<br/>";
+	$("#info").html(html);
 }
 function preloadImage(url)
 {
@@ -38,7 +48,7 @@ var L = [42.0, 42.4, 42.8, 43.2, 43.6, 44, 44.4, 44.8,
 var M = [6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0];
 
 function get_image_url(Mi, Li, suffix) {
-	var imgname = "combinedstructure_2d_MBH" + Mi.toFixed(1) + "_LAGN" + Li.toFixed(1) + suffix;
+	return "combinedstructure_2d_MBH" + Mi.toFixed(1) + "_LAGN" + Li.toFixed(1) + suffix;
 }
 
 $(document).ready(function(){
@@ -51,21 +61,6 @@ $(document).ready(function(){
 	
 	update();
 
-	$("#myTable td").click(function(e) {     
-		
-		var col = parseInt( $(this).index() ) - 1;
-		var row = parseInt( $(this).parent().index() );
-		var suffix = "_log_simple.png";
-		if ($("#morefeatures").is(':checked')) {
-			suffix = "_log.png"
-		}
-		var imgname = get_image_url(M[row], L[col], suffix);
-		
-		//$("#result").html( "fetching" + imgname );
-		
-		$("#viz").attr("src", imgname)
-	});
-	
 	for(var row=0; row < M.length; row++) {
 		for(var col=0; col < L.length; col++) {
 			preloadImage(get_image_url(M[row], L[col], "_log_simple.png"));
@@ -81,7 +76,6 @@ table {
   display: none;
 }
 label {
-  width: 10em;
   display: block;
 }
 td {
@@ -103,6 +97,14 @@ th {
 }
 #controls {
   float: left;
+  max-width: 300px;
+}
+input[type=range] {
+  min-width: 300px;
+  height: 30px;
+}
+img#viz {
+  max-width: 100%;
 }
 </style>
 
@@ -110,7 +112,7 @@ th {
 
 <h1>Model-driven AGN visualisation</h1>
 
-<p><a href="https://github.com/JohannesBuchner/agnviz">Explanation and Code at https://github.com/JohannesBuchner/agnviz</a>. Created by Johannes Buchner, <a href="https://github.com/JohannesBuchner/agnviz/issues">feedback is welcome</a>.</p>
+<p><a href="https://github.com/JohannesBuchner/agnviz">Explanation and Code at https://github.com/JohannesBuchner/agnviz</a>.
 
 <div id="controls">
 <form>
@@ -124,7 +126,7 @@ th {
 	<input id="M" name="M" type='range' min=6 max=9.5 step=0.5 value=8>
 <p><label><input type="checkbox" id="morefeatures" name="morefeatures"/> Show more features</label>
 <p><div id="info"></div>
-<p><a href="https://github.com/JohannesBuchner/agnviz">Get code</a> | <a href="https://github.com/JohannesBuchner/agnviz/issues">Report issues</a>
+<p><a href="https://github.com/JohannesBuchner/agnviz">Get code</a> | <a href="https://github.com/JohannesBuchner/agnviz/issues">Report issues</a><br/>Crafted by Johannes Buchner.
 </form>
 
 </div>
