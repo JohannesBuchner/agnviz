@@ -25,6 +25,18 @@ function update() {
 	$("#viz").attr("src", imgname)
 	
 }
+function preloadImage(url)
+{
+	var img=new Image();
+	img.src=url;
+}
+var L = [42.0, 42.4, 42.8, 43.2, 43.6, 44, 44.4, 44.8, 
+	45.2, 45.6, 46, 46.4, 46.8, 47.2];
+var M = [6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0];
+
+function get_image_url(Mi, Li, suffix) {
+	var imgname = "combinedstructure_2d_MBH" + Mi.toFixed(1) + "_LAGN" + Li.toFixed(1) + suffix;
+}
 
 $(document).ready(function(){
 	$("#controls form input[type=range]").on('input', function () {
@@ -40,21 +52,23 @@ $(document).ready(function(){
 		
 		var col = parseInt( $(this).index() ) - 1;
 		var row = parseInt( $(this).parent().index() );
-		var L = [42.0, 42.4, 42.8, 43.2, 43.6, 44, 44.4, 44.8, 
-			45.2, 45.6, 46, 46.4, 46.8, 47.2];
-		var M = [6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0];
-		
 		var suffix = "_log_simple.png";
 		if ($("#morefeatures").is(':checked')) {
 			suffix = "_log.png"
 		}
-		var imgname = "combinedstructure_2d_MBH" + M[row].toFixed(1) + "_LAGN" + L[col].toFixed(1) + suffix;
+		var imgname = get_image_url(M[row], L[col], suffix);
 		
 		//$("#result").html( "fetching" + imgname );
 		
 		$("#viz").attr("src", imgname)
 	});
-
+	
+	for(var row=0; row < M.length; row++) {
+		for(var col=0; col < L.length; col++) {
+			preloadImage(get_image_url(M[row], L[col], "_log_simple.png"));
+			preloadImage(get_image_url(M[row], L[col], "_log.png"));
+		}
+	}
 });
 </script>
 
