@@ -328,12 +328,12 @@ if __name__ == "__main__":
 			plt.close()
 			
 			Ls = dict(
-				L_X = log_lum(bolcorr_hardX(L_AGN)),
-				L_B = log_lum(bolcorr_B(L_AGN)),
-				L_R = log_lum(compute_radiocore_luminosity(MBH, L_AGN)),
+				L_X = round(log_lum(bolcorr_hardX(L_AGN)), 3),
+				L_B = round(log_lum(bolcorr_B(L_AGN)), 3),
+				L_R = round(log_lum(compute_radiocore_luminosity(MBH, L_AGN)), 3),
 				lambda_edd = rround(eddrate.to(1).value),
-				M_in = log10((L_AGN / c.c**2 / 0.1).to(u.Msun / u.yr).value),
-				M_out = log10(compute_outflow_rate(L_AGN, Mstar = 1e11 * u.Msun, SFR = 0*u.Msun/u.yr).value),
+				M_in = round(log10((L_AGN / c.c**2 / 0.1).to(u.Msun / u.yr).value), 3),
+				M_out = round(log10(compute_outflow_rate(L_AGN, Mstar = 1e11 * u.Msun, SFR = 0*u.Msun/u.yr).value), 3),
 			)
 			fL.write("\t\t[" + ",".join(["%s" % Ls[k] for k in lumlist]) + "],\n")
 			fL.flush();

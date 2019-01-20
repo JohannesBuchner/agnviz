@@ -97,14 +97,25 @@ th {
 }
 #controls {
   float: left;
-  max-width: 300px;
+  max-width: 100%;
+}
+div#options {
+  clear: both;
 }
 input[type=range] {
-  min-width: 300px;
+  min-width: 275px;
   height: 30px;
 }
 img#viz {
   max-width: 100%;
+  float: right;
+}
+@media only screen and (max-width: 800px) {
+  div.control {
+    float: left;
+  }
+
+
 }
 </style>
 
@@ -114,23 +125,29 @@ img#viz {
 
 <p><a href="https://github.com/JohannesBuchner/agnviz">Explanation and Code at https://github.com/JohannesBuchner/agnviz</a>.
 
+<img id="viz" alt="There should be a visualisation here." title="" src="combinedstructure_2d_MBH8.0_LAGN44.0_log_simple.png">
 <div id="controls">
 <form>
-<p><label for="L" title="Bolometric Luminosity (log, erg/s)">L<sub>AGN</sub>=
+<div class='control'>
+	<label for="L" title="Bolometric Luminosity (log, erg/s)">L<sub>AGN</sub>=
 	<span id="Lval"></span>
 	</label>
 	<input id="L" name="L" type='range' min=42 max=47 step=0.2 value=44>
-<p><label for="M" title="Black Hole Mass (log, Msun)">M<sub>BH</sub>=
+</div>
+<div class='control'>
+	<label for="M" title="Black Hole Mass (log, Msun)">M<sub>BH</sub>=
 	<span id="Mval"></span>
 	</label>
 	<input id="M" name="M" type='range' min=6 max=9.5 step=0.5 value=8>
-<p><label><input type="checkbox" id="morefeatures" name="morefeatures"/> Show more features</label>
+</div>
+<div id='options'>
+<label><input type="checkbox" id="morefeatures" name="morefeatures"/> Show more features</label>
+</div>
+</form>
 <p><div id="info"></div>
 <p><a href="https://github.com/JohannesBuchner/agnviz">Get code</a> | <a href="https://github.com/JohannesBuchner/agnviz/issues">Report issues</a><br/>Crafted by Johannes Buchner.
-</form>
 
 </div>
-<img id="viz" alt="There should be a visualisation here." title="">
 
 
 </body>
