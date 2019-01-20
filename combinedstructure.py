@@ -179,7 +179,7 @@ def plot_log_agn_postcard(MBH, eddrate,
 			va='top', ha='right', color='white', fontweight='bold', size=textsize)
 
 	# Corona:
-	y, x = pol2cart(5*r_grav, theta)
+	y, x = pol2cart(6*r_grav, theta)
 	if show_corona:
 		plt.plot(x, y, ls=':', color=colors[1], label='X-ray Corona')
 		plt.text(xlo.value*1.2, 6*r_grav.value, 'Corona',
