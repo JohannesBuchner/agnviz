@@ -306,7 +306,7 @@ if __name__ == "__main__":
 			plt.figure(figsize=(10,7))
 			MBH = 10**logMBH * u.Msun
 			#print(logMBH, eddrate)
-			prefix = "combinedstructure_2d_MBH%s_Mdot%s" % (logMBH, logeddrate)
+			prefix = "img/combinedstructure_2d_MBH%s_Mdot%s" % (logMBH, logeddrate)
 			#print(prefix)
 			plot_log_agn_postcard(MBH, eddrate)
 			plt.savefig(prefix + '_log.pdf', bbox_inches="tight")
@@ -321,7 +321,7 @@ if __name__ == "__main__":
 			plt.figure(figsize=(10,7))
 			MBH = 10**logMBH * u.Msun
 			#print(logMBH, eddrate)
-			prefix = "combinedstructure_2d_MBH%s_LAGN%.1f" % (logMBH, logLAGN)
+			prefix = "img/combinedstructure_2d_MBH%s_LAGN%.1f" % (logMBH, logLAGN)
 			plot_log_agn_postcard(MBH, eddrate)
 			plt.savefig(prefix + '_log.pdf', bbox_inches="tight")
 			plt.savefig(prefix + '_log.png', bbox_inches="tight")
@@ -351,7 +351,7 @@ if __name__ == "__main__":
 				show_viewing = True,
 				show_flows = False,
 			)
-			prefix = "combinedstructure_2d_MBH%s_LAGN%.1f" % (logMBH, logLAGN)
+			prefix = "img/combinedstructure_2d_MBH%s_LAGN%.1f" % (logMBH, logLAGN)
 			plt.savefig(prefix + '_log_simple.pdf', bbox_inches="tight")
 			plt.savefig(prefix + '_log_simple.png', bbox_inches="tight")
 			plt.close()
