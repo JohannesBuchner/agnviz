@@ -16,21 +16,20 @@ function update() {
 	$("#Mval").html(Mi.toFixed(1));
 	$("#Lval").html(Li.toFixed(1));
 
-	var suffix = "_log_simple.png";
+	var suffix = "_log_simple";
 	if ($("#morefeatures").is(':checked')) {
-		suffix = "_log.png"
+		suffix = "_log"
 	}
-	var imgname = get_image_url(Mi, Li, suffix);
+	var imgname = get_image_url(Mi, Li, suffix + ".png");
+	var pdfname = get_image_url(Mi, Li, suffix + ".pdf");
 	
 	console.log("updating to " + imgname);
 	
 	$("#viz").attr("src", imgname);
+	$("#vizlink").attr("href", pdfname);
 	
 	var row = Math.round((Li - 42)/0.2)
 	var col = Math.round((Mi - 6)/0.5)
-	console.log(L, row, Li)
-	console.log(M, col, Mi)
-	console.log("row/col: " + row + "/" + col);
 	var Ls = luminosities[row][col];
 	var html = ""
 	html += "<label title='Intrinsic X-ray luminosity (erg/s, log)'>L<sub>X</sub> = " + Ls[0].toFixed(1) + "<br/>";
@@ -127,7 +126,8 @@ img#viz {
 
 <p><a href="https://github.com/JohannesBuchner/agnviz">Explanation and Code at https://github.com/JohannesBuchner/agnviz</a>.
 
-<img id="viz" alt="There should be a visualisation here." title="" src="img/combinedstructure_2d_MBH8.0_LAGN44.0_log_simple.png">
+<a id="vizlink" href="img/combinedstructure_2d_MBH8.0_LAGN44.0_log_simple.pdf"><img id="viz" alt="There should be a visualisation here. Click to get PDF." title="" src="img/combinedstructure_2d_MBH8.0_LAGN44.0_log_simple.png"></a>
+
 <div id="controls">
 <form>
 <div class='control'>
