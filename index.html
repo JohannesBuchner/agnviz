@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Model-driven AGN visualisation</title>
+<script src="jquery-1.9.1.js" ></script>     
+<script>
+'use strict';
+
+function update() {
+	var M = parseFloat($("#M").val());
+	var L = parseFloat($("#L").val());
+
+	$("#Mval").html(M.toFixed(1));
+	$("#Lval").html(L.toFixed(1));
+
+	var suffix = "_log_simple.png";
+	if ($("#morefeatures").is(':checked')) {
+		suffix = "_log.png"
+	}
+	var imgname = "combinedstructure_2d_MBH" + M.toFixed(1) + "_LAGN" + L.toFixed(1) + suffix;
+	
+	console.log("updating to " + imgname);
+	
+	$("#viz").attr("src", imgname)
+	
+}
+
+$(document).ready(function(){
+	$("#controls form input[type=range]").on('input', function () {
+		update();
+	}) 
+	$("#controls input[type=checkbox]").on('input', function () {
+		update();
+	}) 
+	
+	update();
+
+	$("#myTable td").click(function(e) {     
+		
+		var col = parseInt( $(this).index() ) - 1;
+		var row = parseInt( $(this).parent().index() );
+		var L = [42.0, 42.4, 42.8, 43.2, 43.6, 44, 44.4, 44.8, 
+			45.2, 45.6, 46, 46.4, 46.8, 47.2];
+		var M = [6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0];
+		
+		var suffix = "_log_simple.png";
+		if ($("#morefeatures").is(':checked')) {
+			suffix = "_log.png"
+		}
+		var imgname = "combinedstructure_2d_MBH" + M[row].toFixed(1) + "_LAGN" + L[col].toFixed(1) + suffix;
+		
+		//$("#result").html( "fetching" + imgname );
+		
+		$("#viz").attr("src", imgname)
+	});
+
+});
+</script>
+
+<style>
+table {
+  border-collapse: collapse;
+  display: none;
+}
+label {
+  width: 10em;
+  display: block;
+}
+td {
+  border: 1px dashed black;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  background-color: lightblue;
+}
+td, tr {
+  padding: 0;
+  margin: 0;
+}
+thead th {
+  text-align: center;
+}
+th {
+  text-align: right;
+}
+#controls {
+  float: left;
+}
+</style>
+
+<body>
+
+<h1>Model-driven AGN visualisation</h1>
+
+<div id="controls">
+<form>
+<p><label for="L" title="Bolometric Luminosity (log, erg/s)">L<sub>AGN</sub>=
+	<span id="Lval"></span>
+	</label>
+	<input id="L" name="L" type='range' min=42 max=47 step=0.2 value=44>
+<p><label for="M" title="Black Hole Mass (log, Msun)">M<sub>BH</sub>=
+	<span id="Mval"></span>
+	</label>
+	<input id="M" name="M" type='range' min=6 max=10 step=0.5 value=8>
+<p><label><input type="checkbox" id="morefeatures" name="morefeatures"/> Show more features</label>
+</form>
+
+<!--
+<table id='myTable'>
+<thead>
+<tr>
+<th>M<sub>BH</sub><th>42<th><th><th><th><th>44<th><th><th><th><th>46<th><th><th>
+</tr>
+</thead>
+
+<tr>
+<th>6.0<td><td><td><td><td><td><td><td><td><td><td><td><td>
+</tr>
+<tr>
+<th>6.5<td><td><td><td><td><td><td><td><td><td><td><td><td>
+</tr>
+<tr>
+<th>7.0<td><td><td><td><td><td><td><td><td><td><td><td><td>
+</tr>
+<tr>
+<th>7.5<td><td><td><td><td><td><td><td><td><td><td><td><td>
+</tr>
+<tr>
+<th>8.0<td><td><td><td><td><td><td><td><td><td><td><td><td>
+</tr>
+<tr>
+<th>8.5<td><td><td><td><td><td><td><td><td><td><td><td><td>
+</tr>
+<tr>
+<th>9.0<td><td><td><td><td><td><td><td><td><td><td><td><td>
+</tr>
+<tr>
+<th>9.5<td><td><td><td><td><td><td><td><td><td><td><td><td>
+</tr>
+<tr>
+<th>10.0<td><td><td><td><td><td><td><td><td><td><td><td><td>
+</tr>
+</table>
+<p>Result: <div id="result"></div></p>
+-->
+</div>
+<img id="viz">
+
+
+</body>
+</html>
+

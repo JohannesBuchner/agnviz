@@ -230,9 +230,6 @@ def get_blr_covering_factor(z1, z2, R):
 
 
 def compute_alphadisk_height(MBH, M_dot, R, alpha=1):
-	"""
-	a: unitless spin
-	"""
 	m = (MBH / u.Msun).to(1)
 	mdot = (M_dot / (3e-8 * u.Msun / u.yr) * u.Msun / MBH).to(1)
 	R_g = 2 * c.G * MBH/ c.c**2
@@ -246,23 +243,54 @@ def compute_alphadisk_height(MBH, M_dot, R, alpha=1):
 	zab = (za**2 + zb**2)**0.5
 	
 	zc = 6.1e3 * alpha**(-1/10.) * mdot**(3/20.) * m**(9/10.) * r**(9/8.) / (1 - r**-0.5)**(3/20.)
-
-	zabc = (za**2 + zb**2 + zc**2)**0.5
 	
 	maskbc = r / (1 - r**0.5)**(2/3.) < 6.3e3 * mdot**(2/3.)
 	
+	# pad a bit
+	idx = numpy.where(maskab)[0]
+	idx = idx[numpy.logical_and(idx>0, idx<len(maskab))]
+	maskab[idx-1] = True
+	maskab[idx+1] = True
+	idx = numpy.where(maskbc)[0]
+	idx = idx[numpy.logical_and(idx>0, idx<len(maskab))]
+	maskbc[idx-1] = True
+	maskbc[idx+1] = True
+	
+	# combined in quadrature for smoothness:
+	zabc = (za**2 + zb**2 + zc**2)**0.5
+	# very far in (near 3Rg), the shape diverges, so we do not use it
+	zabc[R < 4*R_g] = numpy.nan
+	
 	return (zabc * u.cm).to(R.unit)
+
+def compute_alphadisk_temperature(MBH, M_dot, R, alpha=1):
+	m = (MBH / u.Msun).to(1)
+	mdot = (M_dot / (3e-8 * u.Msun / u.yr) * u.Msun / MBH).to(1)
+	R_g = 2 * c.G * MBH / c.c**2
+	r = (R / (3*R_g)).to(1)
+	T40 = (3 * c.G * MBH * M_dot / (8 * pi * c.sigma_sb * R**3)).to(u.K**4)
+	T4 = T40 * (1 - r**-0.5)
+	return T4**(1/4.)
 
 def compute_jet_edge(MBH, R):
 	# from https://ui.adsabs.harvard.edu/#abs/arXiv:1611.04075
 	# empirical intermediate between
 	#      quasi-conical streamline (Blandford & Znajek 1977),
-	#      and force-free steady jet solution (Narayan et al 2007; Tchekhovskoy et al 2008(
+	#      and force-free steady jet solution (Narayan et al 2007; Tchekhovskoy et al 2008)
 	
 	R_g = 2 * c.G * MBH / c.c**2
 	R_j = (1 + 1.3*(R/R_g)**0.7) * R_g
 	return R_j.to(R.unit)
 
+def compute_radiocore_luminosity(MBH, L_AGN):
+	"""
+	5GHz luminosity of radio core
+	"""
+	L_X = bolcorr_hardX(L_AGN)
+	m = log10(MBH / u.Msun)
+	# Merloni, Heinz & Di Matteo (2003)
+	logLR = 0.6 * log10(L_X/(u.erg/u.s)) + 0.78 * m + 7.33
+	return 10**logLR * u.erg/u.s
 
 def get_nlr_size():
 	"""
@@ -276,4 +304,12 @@ def get_nlr_size():
 def compute_sphere_of_influence(MBH, sigma):
 	R_infl = c.G * MBH / sigma**2
 	return R_infl
+
+
+def compute_outflow_rate(LAGN, Mstar, SFR):
+	totLum = 1.29 * SFR / (u.Msun/u.yr) + 0.81 * LAGN / (1e43 * u.erg/u.s)
+	logFlow = 1.13 * log10(totLum) - 0.37 * log10(Mstar/(1e11 * u.Msun))
+	return 10**logFlow * u.Msun / u.yr
+
+
 
