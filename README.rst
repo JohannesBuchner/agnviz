@@ -47,17 +47,16 @@ The following components are implemented:
   * Material is likely clumpy
   * analytic form of the radiative fountain model from Wada (2016)
   * describes where dust is no longer accelerated by radiation pressure. Material can pile up near and to the right of the line up to >>10 pc
-  * Note that at low L/M^(2/3), the region is closed.
+  * Note that at low L/M^(2/3), the region is closed (high covering fraction).
   * This region starts near the sublimation radius of most dust grains (~1.3pc sqrt(L46)), but will be stratified by dust grain size (possibly down to the BLR, see above).
 
 * NLR: Narrow line emission region
 
-  * Appears to be shaped substantially by the host galaxy (see e.g. http://adsabs.harvard.edu/abs/2014MNRAS.442.2145P) as well as the nuclear obscurer
+  * Appears to be shaped substantially by the host galaxy (see e.g. `Prieto et al. 2014 <http://adsabs.harvard.edu/abs/2014MNRAS.442.2145P>`_) as well as the nuclear obscurer.
 
 * Jet
 
-  * from `Algaba et al. (2017) <https://ui.adsabs.harvard.edu/#abs/2017ApJ...834...65A/abstract>`_
-  * Size is an empirical intermediate between
+  * Width is an empirical intermediate (from `Algaba et al. (2017) <https://ui.adsabs.harvard.edu/#abs/2017ApJ...834...65A/abstract>`_) between
 
      * quasi-conical streamline (Blandford & Znajek 1977)
      * force-free steady jet solution (Narayan et al 2007; Tchekhovskoy et al 2008)
@@ -70,12 +69,12 @@ The following components are implemented:
 
 * Outflows & Inflows
 
-  * Inflow is given by bolometric luminosity and accretion efficiency (assumed 10%)
+  * Inflow onto BH is given by bolometric luminosity and accretion efficiency (assumed 10%)
   * Outflow relation from `Fluetsch et al. (2018) <https://ui.adsabs.harvard.edu/#abs/arXiv:1805.05352>`_, when setting SFR=0.
 
 * Viewing angles
 
-  * Are a bit difficult to interpret in log-log plots. For example, 
+  * Are a bit difficult to interpret in log-log plots.
   * Note that views to the corona, to the BLR and to the TOR are not necessarily identical.
 
 ==========
@@ -120,7 +119,7 @@ the plot_log_agn_postcard function::
 
 
 If useful for your work and paper, please cite this repository URL.
-Code is MIT licensed.
+Code is BSD licensed, see LICENSE file.
 
 
 
