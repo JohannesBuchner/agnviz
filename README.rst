@@ -20,7 +20,7 @@ The following components are implemented:
 
 * AD: Accretion disk
 
-  * Shakura-Sunyaev alpha-disk (see caveats below)
+  * Shakura & Sunyaev (1972) alpha-disk (see caveats below)
   * color according to local black body temperature, http://www.vendian.org/mncharity/dir3/blackbody/
 
 * Corona: X-ray emitting corona
@@ -68,12 +68,45 @@ The following components are implemented:
   * Note that views to the corona, to the BLR and to the TOR are not necessarily identical.
 
 ==========
-Install
-==========
-
-==========
 Usage
 ==========
+
+Clone this repository, and look at the end of combinedstructure.py how to use
+the plot_log_agn_postcard function::
+
+	from combinedstructure import plot_log_agn_postcard
+	
+	import astropy.units as u
+	
+	MBH = 1e8 * u.Msun
+	eddrate = 0.1
+	
+	import matplotlib.pyplot as plt
+	plt.figure(figsize=(10,7))
+	
+	plot_log_agn_postcard(MBH, eddrate, 
+		# for Baskin & Laor (2017)
+		rad_efficiency = 0.1,
+		Z = 5, # metallicity
+		# Radiative Fountain system assumptions
+		dust_to_gas_ratio = 1/20.,
+		kappa = 1e3 * u.cm**2/u.g,
+		rho_g = 300 * u.Msun / u.pc**3,
+		show_BH = True,
+		show_corona = True,
+		show_disk = True,
+		show_BLR = True,
+		show_NLR = True,
+		show_jet = True,
+		show_TOR = True,
+		show_SOI = True,
+		show_viewing = True,
+		colored_disk = True,
+		show_flows = True,
+	)
+	
+	plt.show()
+
 
 If useful for your work and paper, please cite this repository URL.
 Code is MIT licensed.
