@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Model-driven AGN visualisation</title>
-<script src="jquery-1.9.1.min.js" ></script>     
+<script src="jquery-1.9.1.min.js" ></script>
+<script src="luminosities.js" ></script>
 <script>
 'use strict';
 
@@ -18,11 +19,13 @@ function update() {
 	if ($("#morefeatures").is(':checked')) {
 		suffix = "_log.png"
 	}
-	var imgname = "combinedstructure_2d_MBH" + M.toFixed(1) + "_LAGN" + L.toFixed(1) + suffix;
+	var imgname = get_image_url(M[row], L[col], suffix);
 	
 	console.log("updating to " + imgname);
 	
-	$("#viz").attr("src", imgname)
+	$("#viz").attr("src", imgname);
+	
+	$("#info").html(luminosities[row][col]);
 	
 }
 function preloadImage(url)
@@ -107,7 +110,7 @@ th {
 
 <h1>Model-driven AGN visualisation</h1>
 
-<p><a href="https://github.com/JohannesBuchner/agnviz">Code and Explanation at https://github.com/JohannesBuchner/agnviz. Written by Johannes Buchner, feedback is welcome.</a></p>
+<p><a href="https://github.com/JohannesBuchner/agnviz">Explanation and Code at https://github.com/JohannesBuchner/agnviz</a>. Created by Johannes Buchner, <a href="https://github.com/JohannesBuchner/agnviz/issues">feedback is welcome</a>.</p>
 
 <div id="controls">
 <form>
@@ -120,6 +123,8 @@ th {
 	</label>
 	<input id="M" name="M" type='range' min=6 max=9.5 step=0.5 value=8>
 <p><label><input type="checkbox" id="morefeatures" name="morefeatures"/> Show more features</label>
+<p><div id="info"></div>
+<p><a href="https://github.com/JohannesBuchner/agnviz">Get code</a> | <a href="https://github.com/JohannesBuchner/agnviz/issues">Report issues</a>
 </form>
 
 </div>

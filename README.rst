@@ -38,14 +38,18 @@ The following components are implemented:
 
   * BLCH model (Baskin & Laor (2017), Czerny & Hryniewicz (2011))
   * describes where accretion disk radiation pressure lifts dusty material up (can be clumpy)
+  * The left edge is the dust sublimation radius of the smallest graphites (2000K).
   * This model is known to produce a little too low covering factors
   * Note that at low L/M^(2/3), the BLR goes away (see Elitzur & Netzer (2016))
 
-* RF TOR: Toroidal Obscurer
+* RF TOR: Toroidal Obscuring Region
 
+  * Material is likely clumpy
   * analytic form of the radiative fountain model from Wada (2016)
-  * describes where the BH gravity and radiation pressure cancel each other, and the maximum velocity that can be reached
-  
+  * describes where dust is no longer accelerated by radiation pressure. Material can pile up near and to the right of the line up to >>10 pc
+  * Note that at low L/M^(2/3), the region is closed.
+  * This region starts near the sublimation radius of most dust grains (~1.3pc sqrt(L46)), but will be stratified by dust grain size (possibly down to the BLR, see above).
+
 * NLR: Narrow line emission region
 
   * Appears to be shaped substantially by the host galaxy (see e.g. http://adsabs.harvard.edu/abs/2014MNRAS.442.2145P) as well as the nuclear obscurer

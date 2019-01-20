@@ -8,7 +8,7 @@ import os
 from blrtor import pol2cart, bolcorr_hardX, bolcorr_B
 from blrtor import log_lum, log_bhm, compute_dust_sublimation_radius, compute_heating_radius, compute_L_UV_at_angle, compute_L_X_at_angle, compute_rmax, compute_critical_angle, compute_eddington_luminosity
 
-from blrtor import get_peak, compute_blr_shape, compute_sublimation_radius, get_blr_covering_factor, compute_grav_radius, compute_jet_edge, get_nlr_size
+from blrtor import get_peak, compute_blr_shape, compute_sublimation_radius, get_blr_covering_factor, compute_grav_radius, compute_jet_edge, compute_radiocore_luminosity, get_nlr_size
 
 from blrtor import compute_alphadisk_height, compute_alphadisk_temperature, compute_sphere_of_influence, compute_outflow_rate
 
@@ -294,6 +294,11 @@ def plot_log_agn_postcard(MBH, eddrate,
 	plt.yscale('log')
 
 if __name__ == "__main__":
+	fL = open("luminosities.js", 'w')
+	lumlist = ['L_X', 'L_R', 'L_B', 'lambda_edd', 'M_in', 'M_out']
+	fL.write("var luminosities_keys = [%s];\n" % ', '.join(lumlist));
+	fL.write("var luminosities = [\n");
+	
 	for logMBH in [6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5]:
 		#if logMBH != 8.0: continue
 		for logeddrate in [-3, -1.5, -1, 0, 0.5]:
@@ -307,10 +312,12 @@ if __name__ == "__main__":
 			plt.savefig(prefix + '_log.pdf', bbox_inches="tight")
 			plt.savefig(prefix + '_log.png', bbox_inches="tight")
 			plt.close()
+		fL.write("\t[\n");
 
 		for logLAGN in numpy.arange(42, 47.4, 0.2):
+			L_AGN = 10**logLAGN * (u.erg/u.s)
 			L_AGN_edd = compute_eddington_luminosity(MBH)
-			eddrate = 10**logLAGN * (u.erg/u.s) / L_AGN_edd
+			eddrate = L_AGN / L_AGN_edd
 			plt.figure(figsize=(10,7))
 			MBH = 10**logMBH * u.Msun
 			#print(logMBH, eddrate)
@@ -319,6 +326,17 @@ if __name__ == "__main__":
 			plt.savefig(prefix + '_log.pdf', bbox_inches="tight")
 			plt.savefig(prefix + '_log.png', bbox_inches="tight")
 			plt.close()
+			
+			Ls = dict(
+				L_X = log_lum(bolcorr_hardX(L_AGN)),
+				L_B = log_lum(bolcorr_B(L_AGN)),
+				L_R = log_lum(compute_radiocore_luminosity(MBH, L_AGN)),
+				lambda_edd = eddrate,
+				M_in = log10((L_AGN / c.c**2 / 0.1).to(u.Msun / u.yr).value),
+				M_out = log10(compute_outflow_rate(L_AGN, Mstar = 1e11 * u.Msun, SFR = 0*u.Msun/u.yr).value),
+			)
+			fL.write("\t\t[" + ",".join(["%s" % Ls[k] for k in lumlist]) + "],\n")
+			fL.flush();
 
 			plt.figure(figsize=(10,7))
 			plot_log_agn_postcard(MBH, eddrate,
@@ -338,6 +356,8 @@ if __name__ == "__main__":
 			plt.savefig(prefix + '_log_simple.png', bbox_inches="tight")
 			plt.close()
 
+		fL.write("\t],\n");
+		fL.flush();
 
-
+	fL.write("];");
 
