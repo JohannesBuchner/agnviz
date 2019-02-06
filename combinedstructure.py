@@ -5,7 +5,7 @@ import astropy.constants as c
 import astropy.units as u
 import matplotlib.pyplot as plt
 import os
-from blrtor import pol2cart, bolcorr_hardX, bolcorr_B
+from blrtor import pol2cart, cart2pol, bolcorr_hardX, bolcorr_B
 from blrtor import log_lum, log_bhm, compute_dust_sublimation_radius, compute_heating_radius, compute_L_UV_at_angle, compute_L_X_at_angle, compute_rmax, compute_critical_angle, compute_eddington_luminosity
 
 from blrtor import get_peak, compute_blr_shape, compute_sublimation_radius, get_blr_covering_factor, compute_grav_radius, compute_jet_edge, compute_radiocore_luminosity, get_nlr_size
@@ -227,13 +227,67 @@ def plot_log_agn_postcard(MBH, eddrate,
 		dust_to_gas_ratio, kappa = kappa)
 	CF = cos(theta_crit)
 	
-	r_max[r_max > 1000 * u.pc] = numpy.nan
-	theta_min = arctan2(numpy.interp(r_d.value, R.value, z_disk.value), r_d.value)
-	y, x = pol2cart(r_max, theta)
 	color = colors[3]
+	r_max[r_max > 1000 * u.pc] = numpy.nan
+	z_min = numpy.interp(r_d.value, R.value, z_disk.value)
+	theta_min = arctan2(z_min, r_d.value)
+	y, x = pol2cart(r_max, theta)
 	
 	if show_TOR:
-		plt.plot(x, y, ls='-.', color=color, label="Radiative Fountain TOR")
+		#plt.plot(x, y, ls='-.', color=color, label="Radiative Fountain TOR")
+		
+		## structure:
+		rng = numpy.random.RandomState(1)
+		Nrad = 100
+		# 100 pixels in radial direction
+		rho = 10**rng.normal(size=(Nrad, Nrad))
+		rho[rho > 1000] = 1000
+		from scipy.signal import sepfir2d, convolve2d
+		# we need 5 degree smoothing in theta according to Wada+ sims
+		# but this could be partly due to resolution issues, 
+		# so I take twice that here
+		correlation_degrees = 5 / 2
+		# same scale in radial direction as in vertical direction
+		sigma_rad_pixels = len(rho) * sin(correlation_degrees * pi / 180)
+		H_r = numpy.exp(-0.5 * numpy.linspace(-5, 5, int(sigma_rad_pixels)*10)**2)
+		H_r /= H_r.sum()
+		H_c = H_r
+		kernel = H_r.reshape((-1, 1)) * H_c.reshape((1, -1))
+		kernel /= kernel.sum()
+		
+		rad = numpy.linspace(0, r_infl.to(u.pc).value, Nrad)
+		X, Y = numpy.meshgrid(rad, rad)
+		R, THETA = cart2pol(X, Y)
+		low_density = 0
+		# use high values close to disk
+		rho[THETA <= theta_min] = 10
+		# now erase disallowed regions:
+		# empty jet
+		X_jet = compute_jet_edge(MBH, Y * u.pc).to(u.pc).value
+		rho[X < X_jet] = low_density
+		RMAX = numpy.interp(pi/2 - THETA, xp=theta, fp=r_max.value)
+		RMAX[~numpy.isfinite(RMAX)] = numpy.inf
+		# only fill below r_max
+		rho[R <= RMAX] = low_density
+		# only fill within SOI
+		rho[R > r_infl.to(u.pc).value] = low_density
+		
+		# do convolution
+		convolved = sepfir2d(rho, H_r, H_c)
+		#convolved = convolve2d(rho, kernel, mode='same', fillvalue=low_density)
+		convolved[R <= RMAX] = low_density
+		convolved[R > r_infl.to(u.pc).value] = low_density
+		convolved[X < X_jet] = low_density
+		#convolved[THETA <= theta_min] = 3
+		#plt.contourf(rad, rad, convolved/convolved[convolved>low_density].std(), 
+		#	levels=numpy.linspace(-3, 3, 10), cmap='Reds', zorder=-10)
+		#convolved[convolved > 3] = 3
+		#convolved[convolved < -3] = numpy.nan
+		C = plt.contourf(rad, rad, convolved, 
+			levels=10, cmap='Reds', zorder=-10)
+		C.collections[0].set_facecolor('white')
+		## end structure
+
 
 	mask = theta > 89.7/180*pi
 	if show_TOR and mask.any() and numpy.isfinite(x[mask][0].value):
@@ -307,7 +361,7 @@ if __name__ == "__main__":
 			MBH = 10**logMBH * u.Msun
 			#print(logMBH, eddrate)
 			prefix = "img/combinedstructure_2d_MBH%s_Mdot%s" % (logMBH, logeddrate)
-			#print(prefix)
+			print(prefix)
 			plot_log_agn_postcard(MBH, eddrate)
 			plt.savefig(prefix + '_log.pdf', bbox_inches="tight")
 			plt.savefig(prefix + '_log.png', bbox_inches="tight")
