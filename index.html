@@ -28,10 +28,10 @@ function update() {
 	$("#viz").attr("src", imgname);
 	$("#vizlink").attr("href", pdfname);
 	
-	var row = Math.round((Li - 42)/0.4);
+	var row = Math.round((Li - 42)/0.2);
 	var col = Math.round((Mi - 6)/0.5);
-	console.log("requesting " + row + "/" + luminosities.length);
-	var Ls = luminosities[row][col];
+	console.log("requesting " + col + "/" + luminosities.length);
+	var Ls = luminosities[col][row];
 	var html = ""
 	html += "<label title='Intrinsic X-ray luminosity (erg/s, log)'>L<sub>X</sub> = " + Ls[0].toFixed(1) + "<br/>";
 	html += "<label title='Radio core luminosity (erg/s, log)'>L<sub>R</sub> = " + Ls[1].toFixed(1) + "<br/>";

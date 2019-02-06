@@ -1,4 +1,3 @@
-console.log("defining luminosities");
 var luminosities_keys = ["L_X", "L_R", "L_B", "lambda_edd", "M_in", "M_out"];
 var luminosities = [
 	[
