@@ -41,12 +41,12 @@ function update() {
 	preloadImage(get_image_url(Mi, Li, "_log_simple.png"));
 	preloadImage(get_image_url(Mi, Li, "_log.png"));
 	for(var row=0; row < M.length; row++) {
-		if (Math.abs(row - Mi) < 3) break;
-		preloadImage(get_image_url(M[row], Li, suffix + ".png"));
+		if (Math.abs(col - Mi) < 3)
+			preloadImage(get_image_url(M[row], Li, suffix + ".png"));
 	}
 	for(var col=0; col < L.length; col++) {
-		if (Math.abs(col - Li) < 3) break;
-		preloadImage(get_image_url(Mi, L[col], suffix + ".png"));
+		if (Math.abs(row - Li) < 3)
+			preloadImage(get_image_url(Mi, L[col], suffix + ".png"));
 	}
 
 }
