@@ -42,11 +42,11 @@ function update() {
 	preloadImage(get_image_url(Mi, Li, "_log.png"));
 	for(var rowb=0; rowb < L.length; rowb++) {
 		if (Math.abs(row - rowb) < 4)
-			preloadImage(get_image_url(M[row], Li, suffix + ".png"));
+			preloadImage(get_image_url(M[rowb], Li, suffix + ".png"));
 	}
 	for(var colb=0; colb < M.length; colb++) {
 		if (Math.abs(col - colb) < 4)
-			preloadImage(get_image_url(Mi, L[col], suffix + ".png"));
+			preloadImage(get_image_url(Mi, L[colb], suffix + ".png"));
 	}
 
 }
