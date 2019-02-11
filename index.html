@@ -40,13 +40,15 @@ function update() {
 
 	preloadImage(get_image_url(Mi, Li, "_log_simple.png"));
 	preloadImage(get_image_url(Mi, Li, "_log.png"));
+	// keep M same, vary L
 	for(var rowb=0; rowb < L.length; rowb++) {
 		if (Math.abs(row - rowb) < 4)
-			preloadImage(get_image_url(M[rowb], Li, suffix + ".png"));
+			preloadImage(get_image_url(Mi, L[rowi], suffix + ".png"));
 	}
+	// keep L same, vary M
 	for(var colb=0; colb < M.length; colb++) {
 		if (Math.abs(col - colb) < 4)
-			preloadImage(get_image_url(Mi, L[colb], suffix + ".png"));
+			preloadImage(get_image_url(M[colb], Li, suffix + ".png"));
 	}
 
 }
