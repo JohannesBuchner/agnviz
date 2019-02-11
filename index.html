@@ -38,15 +38,15 @@ function update() {
 	html += "<label title='Eddington ratio (log)'>&lambda; = " + Math.log10(Ls[3]).toFixed(1) + "<br/>";
 	$("#info").html(html);
 
-	preloadImage(get_image_url(Mi, Li, "_log_simple"));
-	preloadImage(get_image_url(Mi, Li, "_log"));
+	preloadImage(get_image_url(Mi, Li, "_log_simple.png"));
+	preloadImage(get_image_url(Mi, Li, "_log.png"));
 	for(var row=0; row < M.length; row++) {
 		if (Math.abs(row - Mi) < 3) break;
-		preloadImage(get_image_url(M[row], Li, suffix));
+		preloadImage(get_image_url(M[row], Li, suffix + ".png"));
 	}
 	for(var col=0; col < L.length; col++) {
 		if (Math.abs(col - Li) < 3) break;
-		preloadImage(get_image_url(Mi, L[col], suffix));
+		preloadImage(get_image_url(Mi, L[col], suffix + ".png"));
 	}
 
 }

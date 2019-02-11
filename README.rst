@@ -122,5 +122,39 @@ If useful for your work and paper, please cite this repository URL.
 Code is BSD licensed, see LICENSE file.
 
 
+Conferences and talks about AGN
+=================================
+
+Conferences:
+--------------
+
+* "Massive black holes in evolving galaxies: from quasars to quiescence" Institut d'Astrophysique de Paris, June 25-29, 2018 http://www.iap.fr/vie_scientifique/colloques/Colloque_IAP/2018/i-program.php
+* "BHI Conference 2018" May 9-11, 2018 https://www.youtube.com/playlist?list=PL8_xPU5epJddhcKBgbwzKYPOWIMKSV29J
+* "Hidden Monsters"  8-12 August 2016 Dartmouth https://www.dartmouth.edu/~hiddenmonsters/presentations_tab.php
+* "Confronting MHD Theories of Accretion Disks with Observations" Kavli Institute for Theoretical Physics (Jan 9 - Mar 30, 2017) http://online.kitp.ucsb.edu/online/disks17/
+* "Massive Black Holes: Birth, Growth and Impact" Kavli Institute for Theoretical Physics (Aug 5-9, 2013)" http://online.itp.ucsb.edu/online/bholes-c13/
 
 
+Talks:
+-------
+
+* Black Hole Demographics in Active and Inactive Galaxies - L. Ho https://youtu.be/rzfIZ1xGH6s?t=133
+* Christine Done : https://youtu.be/2LH9xFv8uCc?t=235 
+* The Monster Roars: Feedback and the Co-Evolution of Galaxies and Black Holes - P. Hopkins https://www.youtube.com/watch?v=_xk2pDxQmls
+
+More general:
+-------------
+
+* Star Formation, Magnetic Fields, and Diffuse Matter in the Galaxy
+
+  * https://www.youtube.com/playlist?list=PLR0icYcBhA7Rv-QymeskXF15Kd-Mnh_T2
+
+* CfA High-energy Astrophysics devision seminars & lectures
+
+  * https://www.youtube.com/channel/UCMFEeX24_lviXNhek5-FFLA
+
+* Rashid Sunyaev lecture https://www.youtube.com/watch?v=8V-brhbokTQ https://www.youtube.com/watch?v=1SbwwWlDkeQ
+
+* https://www.youtube.com/user/ICTStalks/search?query=agn
+* https://www.youtube.com/user/IACvideos/videos
+* https://www.youtube.com/channel/UCTuACIrLKPTlp6XMZbeipig/videos
