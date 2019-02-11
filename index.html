@@ -43,7 +43,7 @@ function update() {
 	// keep M same, vary L
 	for(var rowb=0; rowb < L.length; rowb++) {
 		if (Math.abs(row - rowb) < 4)
-			preloadImage(get_image_url(Mi, L[rowi], suffix + ".png"));
+			preloadImage(get_image_url(Mi, L[rowb], suffix + ".png"));
 	}
 	// keep L same, vary M
 	for(var colb=0; colb < M.length; colb++) {
