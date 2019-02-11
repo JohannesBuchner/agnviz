@@ -13,9 +13,6 @@ function update() {
 	var Mi = parseFloat($("#M").val());
 	var Li = parseFloat($("#L").val());
 
-	$("#Mval").html(Mi.toFixed(1));
-	$("#Lval").html(Li.toFixed(1));
-
 	var suffix = "_log_simple";
 	if ($("#morefeatures").is(':checked')) {
 		suffix = "_log"
@@ -23,20 +20,34 @@ function update() {
 	var imgname = get_image_url(Mi, Li, suffix + ".png");
 	var pdfname = get_image_url(Mi, Li, suffix + ".pdf");
 	
+	preloadImage(imgname);
 	console.log("updating to " + imgname);
-	
-	$("#viz").attr("src", imgname);
+
+	$("#Mval").html(Mi.toFixed(1));
+	$("#Lval").html(Li.toFixed(1));
+
 	$("#vizlink").attr("href", pdfname);
 	
 	var row = Math.round((Li - 42)/0.2);
 	var col = Math.round((Mi - 6)/0.5);
 	console.log("requesting " + col + "/" + luminosities.length);
 	var Ls = luminosities[col][row];
-	var html = ""
+	var html = "";
 	html += "<label title='Intrinsic X-ray luminosity (erg/s, log)'>L<sub>X</sub> = " + Ls[0].toFixed(1) + "<br/>";
 	html += "<label title='Radio core luminosity (erg/s, log)'>L<sub>R</sub> = " + Ls[1].toFixed(1) + "<br/>";
 	html += "<label title='Eddington ratio (log)'>&lambda; = " + Math.log10(Ls[3]).toFixed(1) + "<br/>";
-	$("#info").html(html);
+	var loaded = false;
+	$("#viz").load(function() {
+		loaded = true;
+		$("#info").html(html + "&nbsp;");
+	});
+	setTimeout(function() {
+		if (!loaded) {
+			$("#info").html(html + "loading ...");
+		}
+	}, 400);
+	$("#info").html(html + "&nbsp;");
+	$("#viz").attr("src", imgname);
 
 	preloadImage(get_image_url(Mi, Li, "_log_simple.png"));
 	preloadImage(get_image_url(Mi, Li, "_log.png"));

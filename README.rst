@@ -14,7 +14,7 @@ This visualisation allows extrapolation outside the range of validity of the use
 
 This visualisation is an idealisation of a steady-state situation. In reality, the host galaxy morphology, chaotic accretion events leading to re- and mis-alignments and variability make the picture more complex.
 
-.. image:: https://raw.githubusercontent.com/JohannesBuchner/agnviz/master/combinedstructure_2d_MBH8.0_LAGN44.0_log.png
+.. image:: https://raw.githubusercontent.com/JohannesBuchner/agnviz/master/img/combinedstructure_2d_MBH8.0_LAGN44.0_log.png
 	:width: 300
 	:target: https://johannesbuchner.github.io/agnviz/
 	:alt: Click to play with visualisation
