@@ -45,7 +45,7 @@ The following components are implemented:
 * RF TOR: Toroidal Obscuring Region
 
   * Material is likely clumpy
-  * analytic form of the radiative fountain model from Wada (2016)
+  * analytic form of the radiative fountain model from `Wada (2015) <https://ui.adsabs.harvard.edu/abs/2015ApJ...812...82W/abstract>`_
   * describes where dust is no longer accelerated by radiation pressure. Material can pile up near and to the right of the line up to >>10 pc
   * Note that at low L/M^(2/3), the region is closed (high covering fraction).
   * This region starts near the sublimation radius of most dust grains (~1.3pc sqrt(L46)), but will be stratified by dust grain size (possibly down to the BLR, see above).
